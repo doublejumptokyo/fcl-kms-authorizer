@@ -1,16 +1,3 @@
-# flow-kms-wallet
-
-AWS KMS wallet for the Flow blockchain.
-
-## Install
-```bash
-$ npm install flow-kms-wallet @onflow/fcl aws-sdk
-```
-
-## Examples
-See [send-eth.ts](https://github.com/doublejumptokyo/flow-kms-wallet/blob/main/examples/send-tx.ts).
-
-```ts
 import * as fcl from '@onflow/fcl';
 import { KmsWallet } from '../src/wallet';
 
@@ -78,4 +65,3 @@ async function main() {
 }
 
 main().catch(e => console.error(e));
-```

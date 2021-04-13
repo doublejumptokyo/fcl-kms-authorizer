@@ -1,0 +1,49 @@
+{
+  "name": "flow-kms-wallet",
+  "version": "0.0.1",
+  "description": "AWS KMS wallet for the Flow blockchain.",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "ts-node ./examples/send-tx.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/doublejumptokyo/flow-kms-wallet.git"
+  },
+  "keywords": [
+    "flow",
+    "kms",
+    "fcl",
+    "onflow",
+    "wallet"
+  ],
+  "author": "Takamasa Arakawa <arandoros@gmail.com> (http://avcd.hns.to/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/doublejumptokyo/flow-kms-wallet/issues"
+  },
+  "homepage": "https://github.com/doublejumptokyo/flow-kms-wallet#readme",
+  "dependencies": {
+    "@onflow/fcl": "0.0.66",
+    "@onflow/rlp": "^0.0.3",
+    "@onflow/types": "^0.0.4",
+    "@types/asn1js": "^2.0.0",
+    "@types/bn.js": "^5.1.0",
+    "@types/keccak": "^3.0.1",
+    "@types/node": "^14.14.37",
+    "@types/secp256k1": "^4.0.1",
+    "asn1js": "^2.1.1",
+    "aws-sdk": "^2.876.0",
+    "bn.js": "^5.2.0",
+    "elliptic": "^6.5.4",
+    "keccak": "^3.0.1",
+    "rlp": "^2.2.6",
+    "secp256k1": "^4.0.2",
+    "sha3": "^2.1.4",
+    "typescript": "^4.2.3"
+  },
+  "devDependencies": {
+    "ts-node": "^9.1.1"
+  }
+}
