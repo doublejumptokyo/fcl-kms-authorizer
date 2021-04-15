@@ -8,7 +8,7 @@ const apiUrl = 'http://localhost:8080';
 async function main() {
 
   // Create an instance of the wallet
-  const wallet = new KmsWallet({ region, keyId });
+  const wallet = new KmsWallet({ region }, keyId);
 
   // Get the public key
   //

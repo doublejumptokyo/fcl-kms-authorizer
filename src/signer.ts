@@ -1,16 +1,18 @@
-import AWS from 'aws-sdk';
+import { KMS } from 'aws-sdk';
 
 import { parseSignature, parsePublicKey } from './asn1-parser';
 import { SHA3 } from 'sha3';
 import * as rlp from '@onflow/rlp';
 
+const sha = new SHA3(256);
+
 export class Signer {
-  private readonly kms: AWS.KMS;
+  private readonly kms: KMS;
   private readonly keyId: string;
 
-  public constructor(region: string, keyId: string) {
+  public constructor(kmsOptions: KMS.Types.ClientConfiguration, keyId: string) {
     this.keyId = keyId;
-    this.kms = new AWS.KMS({ region });
+    this.kms = new KMS(kmsOptions);
   }
 
   public async sign(message: string): Promise<string> {
@@ -40,7 +42,6 @@ export class Signer {
   }
 
   private _hashMessage(message: string): Buffer {
-    const sha = new SHA3(256);
     sha.update(Buffer.from(message, 'hex'));
     return sha.digest();
   }

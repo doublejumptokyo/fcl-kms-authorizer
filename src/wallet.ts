@@ -1,16 +1,12 @@
 import * as fcl from '@onflow/fcl';
 import { Signer } from './signer';
-
-export interface KmsOptions {
-  region: string;
-  keyId: string;
-}
+import AWS from 'aws-sdk';
 
 export class KmsWallet {
   private readonly signer: Signer;
 
-  public constructor(kmsOptions: KmsOptions) {
-    this.signer = new Signer(kmsOptions.region, kmsOptions.keyId);
+  public constructor(kmsOptions: AWS.KMS.Types.ClientConfiguration, keyId: string) {
+    this.signer = new Signer(kmsOptions, keyId);
   }
 
   public async getPublicKey(): Promise<string> {
