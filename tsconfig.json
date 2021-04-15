@@ -1,8 +1,25 @@
 {
-  "extends": "./tsconfig.build",
+  "compilerOptions": {
+    "target": "es2018",
+    "lib": ["es2018"],
+    "module": "commonjs",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "downlevelIteration": true,
+    "newLine": "lf",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "outDir": "./dist",
+    "types": ["node"],
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+  },
   "include": [
-    "src",
-    "examples",
-    "tests"
+    "./src/**/*.ts",
+    "./types/**/*.ts"
   ]
 }
