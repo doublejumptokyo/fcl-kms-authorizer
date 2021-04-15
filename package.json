@@ -4,8 +4,11 @@
   "description": "AWS KMS wallet for the Flow blockchain.",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "ts-node ./examples/send-tx.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prebuild": "rm -rf dist",
+    "build": "tsc -p tsconfig.build.json",
+    "test": "run-p test:*",
+    "test:start-emulator": "docker-compose up",
+    "test:execute": "sleep 2 && jest --forceExit && docker-compose down"
   },
   "repository": {
     "type": "git",
@@ -28,22 +31,41 @@
     "@onflow/fcl": "0.0.66",
     "@onflow/rlp": "^0.0.3",
     "@onflow/types": "^0.0.4",
-    "@types/asn1js": "^2.0.0",
-    "@types/bn.js": "^5.1.0",
-    "@types/keccak": "^3.0.1",
-    "@types/node": "^14.14.37",
-    "@types/secp256k1": "^4.0.1",
     "asn1js": "^2.1.1",
     "aws-sdk": "^2.876.0",
     "bn.js": "^5.2.0",
-    "elliptic": "^6.5.4",
     "keccak": "^3.0.1",
     "rlp": "^2.2.6",
     "secp256k1": "^4.0.2",
-    "sha3": "^2.1.4",
-    "typescript": "^4.2.3"
+    "sha3": "^2.1.4"
   },
   "devDependencies": {
-    "ts-node": "^9.1.1"
+    "elliptic": "^6.5.4",
+    "@types/asn1js": "^2.0.0",
+    "@types/bn.js": "^5.1.0",
+    "@types/jest": "^26.0.22",
+    "@types/keccak": "^3.0.1",
+    "@types/node": "^14.14.37",
+    "@types/secp256k1": "^4.0.1",
+    "jest": "^26.6.3",
+    "npm-run-all": "^4.1.5",
+    "ts-jest": "^26.5.4",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
+  },
+  "jest": {
+    "testTimeout": 10000,
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "html"
+    ],
+    "testMatch": [
+      "**/tests/**/*.test.ts"
+    ]
   }
 }
