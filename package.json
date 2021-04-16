@@ -30,7 +30,7 @@
     "onflow",
     "signer"
   ],
-  "author": "Takamasa Arakawa <arandoros@gmail.com> (http://avcd.hns.to/)",
+  "author": "double jump.tokyo Inc. <infra@doublejump.tokyo> (https://www.doublejump.tokyo)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/doublejumptokyo/fcl-kms-authorizer/issues"
