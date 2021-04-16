@@ -1,10 +1,12 @@
+[![npm version](https://badge.fury.io/js/fcl-kms-authorizer.svg)](https://badge.fury.io/js/fcl-kms-authorizer)
+
 # fcl-kms-authorizer
 
-AWS KMS authorizer (signer) for the Flow blockchain.
+AWS KMS authorizer (signer) for Flow blockchain.
 
 ## Install
 ```bash
-$ npm install https://github.com/doublejumptokyo/fcl-kms-authorizer.git '@onflow/fcl'@'0.0.66' aws-sdk
+$ npm install fcl-kms-authorizer '@onflow/fcl'@'0.0.66' aws-sdk
 ```
 
 ## Examples
