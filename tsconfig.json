@@ -19,7 +19,7 @@
     ],
   },
   "include": [
-    "./src/**/*.ts",
-    "./types/**/*.ts"
+    "src",
+    "types"
   ]
 }
