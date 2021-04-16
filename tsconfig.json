@@ -11,7 +11,7 @@
     "downlevelIteration": true,
     "newLine": "lf",
     "moduleResolution": "node",
-    "allowJs": true,
+    "declaration": true,
     "outDir": "./dist",
     "types": ["node"],
     "typeRoots": [
