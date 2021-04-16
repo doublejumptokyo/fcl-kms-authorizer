@@ -1,13 +1,13 @@
 import { mocked } from 'ts-jest/utils';
 import { KMS } from 'aws-sdk';
-import { KmsWallet } from '../src/index';
+import { KmsAuthorizer } from '../src/index';
 import { Signer } from '../src/signer';
 import { Util } from './util';
 
 const apiUrl = 'http://localhost:8080';
 jest.mock('aws-sdk');
 
-describe('KmsWallet', () => {
+describe('KmsAuthorizer', () => {
   test('should success', async () => {
     mocked(KMS).mockImplementation((): any => {
       return {
@@ -27,12 +27,12 @@ describe('KmsWallet', () => {
     const address = await util.createFlowAccount(flowPublicKey);
     const keyIndex = 0;
 
-    const wallet = new KmsWallet({}, '');
+    const authorizer = new KmsAuthorizer({}, '');
 
-    expect(await wallet.getPublicKey()).toBe(publicKey);
-    expect(await wallet.getFlowPublicKey()).toBe(flowPublicKey);
+    expect(await authorizer.getPublicKey()).toBe(publicKey);
+    expect(await authorizer.getFlowPublicKey()).toBe(flowPublicKey);
 
-    const authorization = wallet.authorize(address, keyIndex);
+    const authorization = authorizer.authorize(address, keyIndex);
     expect(typeof authorization).toBe('function');
   });
 })

@@ -1,5 +1,5 @@
 import * as fcl from '@onflow/fcl';
-import { KmsWallet } from '../src/wallet';
+import { KmsAuthorizer } from '../src/authorizer';
 
 const region = 'us-east-1';
 const keyId = 'xxxxx-xxxx-xxxx-xxxx-xxxxxxxx';
@@ -7,14 +7,14 @@ const apiUrl = 'http://localhost:8080';
 
 async function main() {
 
-  // Create an instance of the wallet
-  const wallet = new KmsWallet({ region }, keyId);
+  // Create an instance of the authorizer
+  const authorizer = new KmsAuthorizer({ region }, keyId);
 
   // Get the public key
   //
   // The Flow blockchain requires you to create an account with this public key in advance.
   // Once the account is created, the address and key index are determined.
-  const publicKey = await wallet.getPublicKey();
+  const publicKey = await authorizer.getPublicKey();
 
   // If you are using an emulator environment,
   // you can create an account using the Flow CLI command or Flow JavaScript SDK (@onflow/fcl).
@@ -29,7 +29,7 @@ async function main() {
   // you need to use Flow-specified public key instead of this public key.
   // Flow-specified public key can be get as follows:
   //
-  // const flowPublicKey = await wallet.getFlowPublicKey();
+  // const flowPublicKey = await authorizer.getFlowPublicKey();
   //    -> e.g. f847b840a4e58eac80de2e8c37fea02a1b898623a73e729878d449649e68c7485c94d887b607439d94d6cad68134681443dd9b83d87312d08b6d6cf3f08e7f7fbd5f782e03038203e8
   //
 
@@ -43,13 +43,13 @@ async function main() {
   const address = '01cf0e2f2f715450';
   const keyIndex = 0;
 
-  const authorization = wallet.authorize(address, keyIndex);
+  const authorization = authorizer.authorize(address, keyIndex);
 
   const response = await fcl.send([
     fcl.transaction`
       transaction {
         prepare(signer: AuthAccount) {
-          log("Test transaction signed by flow-kms-wallet")
+          log("Test transaction signed by fcl-kms-authorizer")
         }
       }
     `,

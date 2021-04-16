@@ -2,7 +2,7 @@ import * as fcl from '@onflow/fcl';
 import { Signer } from './signer';
 import { KMS } from 'aws-sdk';
 
-export class KmsWallet {
+export class KmsAuthorizer {
   private readonly signer: Signer;
 
   public constructor(kmsOptions: KMS.Types.ClientConfiguration, keyId: string) {

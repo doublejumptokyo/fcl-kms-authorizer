@@ -1,7 +1,7 @@
 {
-  "name": "flow-kms-wallet",
+  "name": "fcl-kms-authorizer",
   "version": "0.0.1",
-  "description": "AWS KMS wallet for the Flow blockchain.",
+  "description": "AWS KMS authorizer (signer) for Flow blockchain.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -21,28 +21,27 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/doublejumptokyo/flow-kms-wallet.git"
+    "url": "git+https://github.com/doublejumptokyo/fcl-kms-authorizer.git"
   },
   "keywords": [
     "flow",
     "kms",
     "fcl",
     "onflow",
-    "wallet"
+    "signer"
   ],
   "author": "Takamasa Arakawa <arandoros@gmail.com> (http://avcd.hns.to/)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/doublejumptokyo/flow-kms-wallet/issues"
+    "url": "https://github.com/doublejumptokyo/fcl-kms-authorizer/issues"
   },
-  "homepage": "https://github.com/doublejumptokyo/flow-kms-wallet#readme",
+  "homepage": "https://github.com/doublejumptokyo/fcl-kms-authorizer#readme",
   "dependencies": {
     "@onflow/fcl": "0.0.66",
     "@onflow/rlp": "^0.0.3",
     "@onflow/types": "^0.0.4",
     "@types/asn1js": "^2.0.0",
     "@types/bn.js": "^5.1.0",
-    "@types/jest": "^26.0.22",
     "@types/keccak": "^3.0.1",
     "@types/node": "^14.14.37",
     "@types/secp256k1": "^4.0.1",
@@ -57,6 +56,7 @@
     "typescript": "^4.2.3"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.22",
     "elliptic": "^6.5.4",
     "jest": "^26.6.3",
     "npm-run-all": "^4.1.5",
