@@ -1,3 +1,5 @@
+[![npm version](https://badge.fury.io/js/fcl-kms-authorizer.svg)](https://badge.fury.io/js/fcl-kms-authorizer)
+
 # fcl-kms-authorizer
 
 AWS KMS authorizer (signer) for the Flow blockchain.
