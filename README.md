@@ -23,7 +23,7 @@ const apiUrl = 'http://localhost:8080';
 async function main() {
 
   // Create an instance of the authorizer
-  const authorizer = new KmsAuthorizer({ region, keyId });
+  const authorizer = new KmsAuthorizer({ region }, keyId);
 
   // Get the public key
   //
