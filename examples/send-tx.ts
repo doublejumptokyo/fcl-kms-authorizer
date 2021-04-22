@@ -9,6 +9,15 @@ async function main() {
 
   // Create an instance of the authorizer
   const authorizer = new KmsAuthorizer({ region }, keyId);
+  // 
+  // Another example:
+  //   const authorizer = new KmsAuthorizer({
+  //     credentials: new AWS.Credentials(
+  //       <AWS_ACCESS_KEY_ID>,
+  //       <AWS_SECRET_ACCESS_KEY>
+  //     ),
+  //     region
+  //   }, keyId);
 
   // Get the public key
   //
