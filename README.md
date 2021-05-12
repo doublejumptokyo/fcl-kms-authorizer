@@ -10,7 +10,7 @@ $ npm install fcl-kms-authorizer '@onflow/fcl'@'0.0.68' aws-sdk
 ```
 
 ## Examples
-See [send-eth.ts](https://github.com/doublejumptokyo/fcl-kms-authorizer/blob/main/examples/send-tx.ts).
+See [send-tx.ts](https://github.com/doublejumptokyo/fcl-kms-authorizer/blob/main/examples/send-tx.ts).
 
 ```ts
 import * as fcl from '@onflow/fcl';
