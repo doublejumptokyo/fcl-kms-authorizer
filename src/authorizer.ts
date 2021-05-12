@@ -24,7 +24,6 @@ export class KmsAuthorizer {
         tempId: [fromAddress, keyIndex].join("-"),
         addr: fcl.sansPrefix(fromAddress),
         keyId: Number(keyIndex),
-        sequenceNum,
         resolve: null,
         signingFunction: async(data: any) => {
           return {

@@ -49,28 +49,19 @@ export class Util {
 
   authorize({ address, privateKey, keyIndex }: { address: string, privateKey: string, keyIndex: number }) {
     return async (account: any = {}) => {
-      const user = await this.getAccount(address);
-      const key = user.keys[keyIndex];
-      let sequenceNum;
-      if (account.role.proposer) {
-        sequenceNum = key.sequenceNumber;
-      }
-      const signingFunction = async (data: any) => {
-        return {
-          addr: user.address,
-          keyId: key.index,
-          signature: this.signWithKey(privateKey, data.message),
-        };
-      };
       return {
         ...account,
-        addr: user.address,
-        keyId: key.index,
-        sequenceNum,
-        signature: account.signature || null,
-        signingFunction,
+        tempId: [address, keyIndex].join("-"),
+        addr: fcl.sansPrefix(address),
+        keyId: Number(keyIndex),
         resolve: null,
-        roles: account.roles,
+        signingFunction: async(data: any) => {
+          return {
+            addr: fcl.withPrefix(address),
+            keyId: Number(keyIndex),
+            signature: await this.signWithKey(privateKey, data.message),
+          };
+        }
       };
     };
   };
