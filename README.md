@@ -6,7 +6,7 @@ AWS KMS authorizer (signer) for Flow blockchain.
 
 ## Install
 ```bash
-$ npm install fcl-kms-authorizer '@onflow/fcl'@'0.0.66' aws-sdk
+$ npm install fcl-kms-authorizer '@onflow/fcl'@'0.0.68' aws-sdk
 ```
 
 ## Examples
