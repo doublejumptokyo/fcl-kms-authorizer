@@ -1,6 +1,6 @@
 {
   "name": "fcl-kms-authorizer",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "AWS KMS authorizer (signer) for Flow blockchain.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -16,7 +16,8 @@
     "test": "run-p test:*",
     "test:start-emulator": "docker-compose up",
     "test:execute": "sleep 2 && jest --forceExit && docker-compose down",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "example": "ts-node ./examples/send-tx.ts"
   },
   "repository": {
     "type": "git",
@@ -36,7 +37,7 @@
   },
   "homepage": "https://github.com/doublejumptokyo/fcl-kms-authorizer#readme",
   "dependencies": {
-    "@onflow/fcl": "0.0.66",
+    "@onflow/fcl": "0.0.68",
     "@onflow/rlp": "^0.0.3",
     "@onflow/types": "^0.0.4",
     "@types/asn1js": "^2.0.0",

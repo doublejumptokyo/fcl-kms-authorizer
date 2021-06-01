@@ -6,11 +6,11 @@ AWS KMS authorizer (signer) for Flow blockchain.
 
 ## Install
 ```bash
-$ npm install fcl-kms-authorizer '@onflow/fcl'@'0.0.66' aws-sdk
+$ npm install fcl-kms-authorizer '@onflow/fcl'@'0.0.68' aws-sdk
 ```
 
 ## Examples
-See [send-eth.ts](https://github.com/doublejumptokyo/fcl-kms-authorizer/blob/main/examples/send-tx.ts).
+See [send-tx.ts](https://github.com/doublejumptokyo/fcl-kms-authorizer/blob/main/examples/send-tx.ts).
 
 ```ts
 import * as fcl from '@onflow/fcl';
@@ -20,39 +20,25 @@ const region = 'us-east-1';
 const keyId = 'xxxxx-xxxx-xxxx-xxxx-xxxxxxxx';
 const apiUrl = 'http://localhost:8080';
 
+fcl.config().put('accessNode.api', apiUrl);
+
 async function main() {
 
   // Create an instance of the authorizer
   const authorizer = new KmsAuthorizer({ region }, keyId);
-
-  // Get the public key
   //
-  // The Flow blockchain requires you to create an account with this public key in advance.
-  // Once the account is created, the address and key index are determined.
-  const publicKey = await authorizer.getPublicKey();
-
-  // If you are using an emulator environment,
-  // you can create an account using the Flow CLI command or Flow JavaScript SDK (@onflow/fcl).
-  //
-  // Example of Flow CLI command:
-  //   $ flow accounts create \
-  //       --results \
-  //       --sig-algo ECDSA_secp256k1 \
-  //       --key a4e58eac80de2e8c37fea02a1b898623a73e729878d449649e68c7485c94d887b607439d94d6cad68134681443dd9b83d87312d08b6d6cf3f08e7f7fbd5f782e
-  //
-  // If you use Flow JavaScript SDK (@onflow/fcl),
-  // you need to use Flow-specified public key instead of this public key.
-  // Flow-specified public key can be get as follows:
-  //
-  // const flowPublicKey = await authorizer.getFlowPublicKey();
-  //    -> e.g. f847b840a4e58eac80de2e8c37fea02a1b898623a73e729878d449649e68c7485c94d887b607439d94d6cad68134681443dd9b83d87312d08b6d6cf3f08e7f7fbd5f782e03038203e8
-  //
-
+  // * The first argument can be the same as the option for AWS client.
+  //   Example:
+  //     const authorizer = new KmsAuthorizer({
+  //       credentials: new AWS.Credentials(
+  //         <AWS_ACCESS_KEY_ID>,
+  //         <AWS_SECRET_ACCESS_KEY>
+  //       ),
+  //       region
+  //     }, keyId);
 
   // Sign and send transactions with KMS
   //
-
-  fcl.config().put('accessNode.api', apiUrl);
 
   // `address` and `keyIndex` obtained when the account was created.
   const address = '01cf0e2f2f715450';
@@ -76,8 +62,75 @@ async function main() {
   ]);
   await fcl.tx(response).onceSealed();
 
-  console.log('Transaction Suceeded');
+  console.log('Transaction Succeeded');
 }
 
 main().catch(e => console.error(e));
 ```
+
+
+## How to set up AWS KMS
+
+Flow and this library support asymmetric keys of secp256k1. Therefore, you need to generate a key in AWS KMS with the following settings:
+
+- Key type: `Asymmetric`
+- Key usage: `Sign and verify`
+- Key spec: `ECC_SECG_P256K1`
+
+![Create Key](./examples/screenshots/create_key.png)
+
+![Configure Key](./examples/screenshots/configure_key.png)
+
+Once the key is generated, you will get the Key ID.
+
+![Key Info](./examples/screenshots/key_info.png)
+
+\* Note: These UIs are subject to change.
+
+
+## How to create a Flow account
+
+Flow blockchain requires you to create an account with this public key in advance.
+
+Once the account is created, the address and key index are determined.
+
+There are several ways to create an account. For details, please refer to Flow documentation.
+
+- Using Flow CLI
+  - Ref: https://docs.onflow.org/flow-cli/create-accounts
+- Using Flow Testnet Faucet (for Testnet)
+  - Ref: https://docs.onflow.org/dapp-deployment/testnet-deployment#creating-an-account
+- Using Flow Go SDK
+  - Ref: https://docs.onflow.org/flow-go-sdk/creating-accounts
+- Using Flow JavaScript SDK
+
+
+To obtain the public key needed to create an account, execute the following code.
+
+
+```ts
+// Get the public key
+const publicKey = await authorizer.getPublicKey();
+
+// -> e.g. a4e58eac80de2e8c37fea02a1b898623a73e729878d449649e68c7485c94d887b607439d94d6cad68134681443dd9b83d87312d08b6d6cf3f08e7f7fbd5f782e
+```
+
+An example of creating an account using Flow CLI is shown below:
+
+```
+$ flow accounts create \
+      --results \
+      --sig-algo ECDSA_secp256k1 \
+      --key a4e58eac80de2e8c37fea02a1b898623a73e729878d449649e68c7485c94d887b607439d94d6cad68134681443dd9b83d87312d08b6d6cf3f08e7f7fbd5f782e
+```
+
+Also, if you want to use Flow Testnet Faucet, choose the following settings. (Note: UI is subject to change)
+
+![Key Info](./examples/screenshots/testnet_faucet_config.png)
+
+
+## Security caveats
+
+This library is designed for backend or administrative frontend use; be careful not to expose your AWS access information to users.
+
+With the asymmetric keys in AWS KMS, no one can steal your private key. However, please be careful not to disclose access to the signing function to anyone.

@@ -19,28 +19,19 @@ export class KmsAuthorizer {
 
   public authorize(fromAddress: string, keyIndex: number) {
     return async (account: any = {}) => {
-      const user = await this.getAccount(fromAddress);
-      const key = user.keys[keyIndex];
-      let sequenceNum;
-      if (account.role.proposer) {
-        sequenceNum = key.sequenceNumber;
-      }
-      const signingFunction = async (data: any) => {
-        return {
-          addr: user.address,
-          keyId: key.index,
-          signature: await this.signer.sign(data.message)
-        };
-      };
       return {
         ...account,
-        addr: user.address,
-        keyId: key.index,
-        sequenceNum,
-        signature: account.signature || null,
-        signingFunction,
+        tempId: [fromAddress, keyIndex].join("-"),
+        addr: fcl.sansPrefix(fromAddress),
+        keyId: Number(keyIndex),
         resolve: null,
-        roles: account.roles,
+        signingFunction: async(data: any) => {
+          return {
+            addr: fcl.withPrefix(fromAddress),
+            keyId: Number(keyIndex),
+            signature: await this.signer.sign(data.message)
+          };
+        }
       };
     };
   };
