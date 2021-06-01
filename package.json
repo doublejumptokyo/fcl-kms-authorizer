@@ -37,7 +37,7 @@
   },
   "homepage": "https://github.com/doublejumptokyo/fcl-kms-authorizer#readme",
   "dependencies": {
-    "@onflow/fcl": "0.0.68",
+    "@onflow/fcl": "0.0.70",
     "@onflow/rlp": "^0.0.3",
     "@onflow/types": "^0.0.4",
     "@types/asn1js": "^2.0.0",
