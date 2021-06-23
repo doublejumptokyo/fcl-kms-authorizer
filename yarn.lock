@@ -501,22 +501,14 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@onflow/config@0.0.2", "@onflow/config@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@onflow/config/-/config-0.0.2.tgz#caed7df27e9258ce2d4eae43f5e6f22caa119547"
-  integrity sha512-H/+yrAalzEnMWkubiWsDdWytKSzd+OfRCddTlaRUelxfXhcfw2QWegH9N8EzeKfKXcQ6PLzvu9vQwhFxCZTE8Q==
+"@onflow/fcl@0.0.73":
+  version "0.0.73"
+  resolved "https://registry.yarnpkg.com/@onflow/fcl/-/fcl-0.0.73.tgz#c90b86af4527559ddc0e2e2592203edbfbda926d"
+  integrity sha512-A6HNPgfck51uBMyhuKoOQaH9Ro1Ma7iE45Q5imrjeAT0Jk1DLUgG78M28oFpt+mlCwhYFsLuyMVmVPwGsAL64w==
   dependencies:
-    "@onflow/util-actor" "0.0.2"
-
-"@onflow/fcl@0.0.70":
-  version "0.0.70"
-  resolved "https://registry.yarnpkg.com/@onflow/fcl/-/fcl-0.0.70.tgz#9330235f9e329d6f418513963897d5c03b848ba5"
-  integrity sha512-FRjyLUx9hbWrz2gQizF2sWgWHsMG8RoMW7+dQ5mVE0NpCV7knjyM6peqlNYTYvOWGsNf8TdG0M8fDEFpu1bRQw==
-  dependencies:
-    "@onflow/config" "0.0.2"
     "@onflow/interaction" "0.0.11"
     "@onflow/rlp" "0.0.3"
-    "@onflow/sdk" "0.0.46-alpha.1"
+    "@onflow/sdk" "0.0.50"
     "@onflow/types" "^0.0.4"
     "@onflow/util-actor" "0.0.2"
     "@onflow/util-address" "0.0.0"
@@ -542,16 +534,16 @@
   resolved "https://registry.yarnpkg.com/@onflow/rlp/-/rlp-0.0.3.tgz#42e10944309732bfd9acca79710c8210b9aabd4c"
   integrity sha512-oAf0VEiMjX8eC6Vd66j1BdGYTHOM6UBaS/sLSScnc7bKX5gICqe2gtEsCeJVE9rUzRk3GD3JqXRnPAW6YFWd/Q==
 
-"@onflow/sdk@0.0.46-alpha.1":
-  version "0.0.46-alpha.1"
-  resolved "https://registry.yarnpkg.com/@onflow/sdk/-/sdk-0.0.46-alpha.1.tgz#822e47cef023ba2b379d336217c2fa6e6d7c7000"
-  integrity sha512-wURqXSyEMRBRxo1DSUD7c9mG2igQWsKrAeZgxE+ZeVDOtaHIooTMX+gd2KgFx2FvUHHiNj3x+YY70KSEaH2OXQ==
+"@onflow/sdk@0.0.50":
+  version "0.0.50"
+  resolved "https://registry.yarnpkg.com/@onflow/sdk/-/sdk-0.0.50.tgz#86dbd252c76b7d3b6860e52254e683004bb32a31"
+  integrity sha512-A3g43Qx7OgeFfpgz9Tk4bJIE2xJ6zWe6FPGAm6Al+5OP+TNU5vdLcxKNgR+Pk2u+QVCYBaA0Jf4pncF9+K+pVw==
   dependencies:
     "@improbable-eng/grpc-web" "^0.14.0"
     "@improbable-eng/grpc-web-node-http-transport" "^0.14.0"
-    "@onflow/config" "^0.0.2"
     "@onflow/protobuf" "^0.1.8"
     "@onflow/rlp" "^0.0.3"
+    "@onflow/util-actor" "0.0.2"
     "@onflow/util-address" "^0.0.0"
     "@onflow/util-invariant" "^0.0.0"
     "@onflow/util-template" "0.0.1"
@@ -1745,9 +1737,9 @@ globals@^11.1.0:
   integrity sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==
 
 google-protobuf@^3.11.4:
-  version "3.17.1"
-  resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.17.1.tgz#d5224fe7dc931f1a69cbdc5cb6e3d69ae74da651"
-  integrity sha512-CHisE5cwd66w6y/K4K7x2N+SSZ0HgPBQwky7lKsj2vr4nXPuXQ2uUZgMF/ctXnd4xHL747Lh8LUgby2nA8gViA==
+  version "3.17.3"
+  resolved "https://registry.yarnpkg.com/google-protobuf/-/google-protobuf-3.17.3.tgz#f87595073545a77946c8f0b67c302c5f7646d700"
+  integrity sha512-OVPzcSWIAJ+d5yiHyeaLrdufQtrvaBrF4JQg+z8ynTkbO3uFcujqXszTumqg1cGsAsjkWnI+M5B1xZ19yR4Wyg==
 
 graceful-fs@^4.1.2, graceful-fs@^4.2.4:
   version "4.2.6"

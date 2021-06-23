@@ -119,7 +119,6 @@ An example of creating an account using Flow CLI is shown below:
 
 ```
 $ flow accounts create \
-      --results \
       --sig-algo ECDSA_secp256k1 \
       --key a4e58eac80de2e8c37fea02a1b898623a73e729878d449649e68c7485c94d887b607439d94d6cad68134681443dd9b83d87312d08b6d6cf3f08e7f7fbd5f782e
 ```
