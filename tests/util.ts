@@ -5,7 +5,6 @@ import * as types from '@onflow/types';
 
 const flowEmulatorConfig = require('../flow.json');
 const ec = new EC('p256');
-const sha = new SHA3(256);
 
 export class Util {
   constructor(apiUrl: string) {
@@ -81,6 +80,7 @@ export class Util {
   };
 
   hashMsg(msg: string) {
+    const sha = new SHA3(256);
     sha.update(Buffer.from(msg, 'hex'));
     return sha.digest();
   };
