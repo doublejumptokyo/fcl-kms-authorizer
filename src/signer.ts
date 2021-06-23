@@ -4,8 +4,6 @@ import { parseSignature, parsePublicKey } from './asn1-parser';
 import { SHA3 } from 'sha3';
 import * as rlp from '@onflow/rlp';
 
-const sha = new SHA3(256);
-
 export class Signer {
   private readonly kms: KMS;
   private readonly keyId: string;
@@ -42,6 +40,7 @@ export class Signer {
   }
 
   private _hashMessage(message: string): Buffer {
+    const sha = new SHA3(256);
     sha.update(Buffer.from(message, 'hex'));
     return sha.digest();
   }
