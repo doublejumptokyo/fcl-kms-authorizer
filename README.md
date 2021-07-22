@@ -1,4 +1,5 @@
 [![npm version](https://badge.fury.io/js/fcl-kms-authorizer.svg)](https://badge.fury.io/js/fcl-kms-authorizer)
+[![test](https://github.com/doublejumptokyo/fcl-kms-authorizer/actions/workflows/test.yml/badge.svg)](https://github.com/doublejumptokyo/fcl-kms-authorizer/actions/workflows/test.yml)
 
 # fcl-kms-authorizer
 

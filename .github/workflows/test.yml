@@ -1,0 +1,14 @@
+name: test
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: test
+        run: |
+          wget https://storage.googleapis.com/flow-cli/install.sh
+          sh ./install.sh
+          flow emulator &
+          yarn install
+          npx jest

@@ -37,6 +37,7 @@ export class Util {
       fcl.proposer(authorization),
       fcl.authorizations([authorization]),
       fcl.payer(authorization),
+      fcl.limit(9999),
     ]);
     const { events } = await fcl.tx(response).onceSealed();
     const accountCreatedEvent = events.find((d: any) => d.type === 'flow.AccountCreated');
