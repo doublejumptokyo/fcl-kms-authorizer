@@ -1,4 +1,4 @@
-name: fcl-kms-authorizer
+name: test
 on: [push]
 jobs:
   test:
