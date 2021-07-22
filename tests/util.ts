@@ -24,11 +24,14 @@ export class Util {
           prepare(signer: AuthAccount) {
             let account = AuthAccount(payer: signer)
             account.addPublicKey(publicKey.decodeHex())
+            // let key = PublicKey(
+            //   publicKey: publicKey.decodeHex(),
+            //   signatureAlgorithm: SignatureAlgorithm.ECDSA_secp256k1
+            // )
             // account.keys.add(
             //   publicKey: key,
-            //   signatureAlgorithm: SignatureAlgorithm.ECDSA_secp256k1,
             //   hashAlgorithm: HashAlgorithm.SHA3_256,
-            //   weight: 10.0
+            //   weight: 1.0
             // )
           }
         }
