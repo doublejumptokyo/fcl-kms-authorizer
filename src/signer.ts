@@ -17,7 +17,7 @@ export class Signer {
     const digest = this._hashMessage(message);
     const asn1Signature = await this._sign(digest);
     const { r, s } = parseSignature(asn1Signature);
-    return Buffer.concat([r, s]).toString('hex');
+    return Buffer.concat([this._pad32(r), this._pad32(s)]).toString('hex');
   }
 
   public async getPublicKey(): Promise<string> {
@@ -70,5 +70,11 @@ export class Signer {
       throw new TypeError('Signature is not Buffer');
     }
     return response.Signature;
+  }
+
+  private _pad32(buf: Buffer): Buffer {
+    const paddedBuf = Buffer.alloc(32);
+    buf.copy(paddedBuf, paddedBuf.length - buf.length);
+    return paddedBuf;
   }
 }
