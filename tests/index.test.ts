@@ -1,5 +1,5 @@
 import { mocked } from 'ts-jest/utils';
-import { KMS } from 'aws-sdk';
+import { KMSClient } from '@aws-sdk/client-kms';
 import { KmsAuthorizer } from '../src/index';
 import { Signer } from '../src/signer';
 import { Util } from './util';
@@ -14,11 +14,11 @@ const publicKey = '8adf5d29ec027b64c1737e2cb1206143328c7792b98eb5a25203da20d34f5
 const flowPublicKey = 'f847b8408adf5d29ec027b64c1737e2cb1206143328c7792b98eb5a25203da20d34f5fa67848ccad9be5e2bc57ea5df3801a9ced02dd2faaa7a6ae902f18fde0d8aaef8a02038203e8';
 const privateKey = 'e912bb5b687eba739da2a36dc8d121746c5809ae0fcab7e42f2562045fdad181';
 
-jest.mock('aws-sdk');
+jest.mock('@aws-sdk/client-kms');
 
 describe('KmsAuthorizer', () => {
   test('should success', async () => {
-    mocked(KMS).mockImplementation((): any => {
+    mocked(KMSClient).mockImplementation((): any => {
       return {
         getPublicKey: (_param: any, callback: any) => { return { promise: () => '' }; },
         sign: (param: any, callback: any) => { return { promise: () => '' }; },

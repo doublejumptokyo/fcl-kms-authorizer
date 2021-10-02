@@ -1,5 +1,6 @@
 import * as fcl from '@onflow/fcl';
 import { KmsAuthorizer } from '../src/authorizer';
+// import { fromEnv } from '@aws-sdk/credential-providers';
 
 const region = 'us-east-1';
 const keyId = 'xxxxx-xxxx-xxxx-xxxx-xxxxxxxx';
@@ -15,11 +16,8 @@ async function main() {
   // * The first argument can be the same as the option for AWS client.
   //   Example:
   //     const authorizer = new KmsAuthorizer({
-  //       credentials: new AWS.Credentials(
-  //         <AWS_ACCESS_KEY_ID>,
-  //         <AWS_SECRET_ACCESS_KEY>
-  //       ),
-  //       region
+  //       credentials: fromEnv(), // see. https://github.com/aws/aws-sdk-js-v3/tree/main/packages/credential-providers#fromenv
+  //       region,
   //     }, keyId);
   //
 

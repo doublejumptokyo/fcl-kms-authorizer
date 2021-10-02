@@ -1,16 +1,16 @@
-import { KMS } from 'aws-sdk';
+import { KMSClient, KMSClientConfig, GetPublicKeyCommand, SignCommand } from '@aws-sdk/client-kms';
 
 import { parseSignature, parsePublicKey } from './asn1-parser';
 import { SHA3 } from 'sha3';
 import * as rlp from '@onflow/rlp';
 
 export class Signer {
-  private readonly kms: KMS;
+  private readonly kms: KMSClient;
   private readonly keyId: string;
 
-  public constructor(kmsOptions: KMS.Types.ClientConfiguration, keyId: string) {
+  public constructor(kmsOptions: KMSClientConfig, keyId: string) {
     this.keyId = keyId;
-    this.kms = new KMS(kmsOptions);
+    this.kms = new KMSClient(kmsOptions);
   }
 
   public async sign(message: string): Promise<string> {
@@ -46,11 +46,11 @@ export class Signer {
   }
 
   private async _getPublicKey(): Promise<Buffer> {
-    const response = await this.kms
-      .getPublicKey({
+    const response = await this.kms.send(
+      new GetPublicKeyCommand({
         KeyId: this.keyId
       })
-      .promise();
+    );
     if (!Buffer.isBuffer(response.PublicKey)) {
       throw new TypeError('PublicKey is not Buffer');
     }
@@ -58,18 +58,15 @@ export class Signer {
   }
 
   private async _sign(digest: Buffer) {
-    const response = await this.kms
-      .sign({
+    const response = await this.kms.send(
+      new SignCommand({
         KeyId: this.keyId,
         Message: digest,
         MessageType: 'DIGEST',
         SigningAlgorithm: 'ECDSA_SHA_256',
       })
-      .promise();
-    if (!Buffer.isBuffer(response.Signature)) {
-      throw new TypeError('Signature is not Buffer');
-    }
-    return response.Signature;
+    );
+    return Buffer.from(response.Signature!);
   }
 
   private _pad32(buf: Buffer): Buffer {

@@ -1,11 +1,11 @@
 import * as fcl from '@onflow/fcl';
 import { Signer } from './signer';
-import { KMS } from 'aws-sdk';
+import { KMSClientConfig } from '@aws-sdk/client-kms';
 
 export class KmsAuthorizer {
   private readonly signer: Signer;
 
-  public constructor(kmsOptions: KMS.Types.ClientConfiguration, keyId: string) {
+  public constructor(kmsOptions: KMSClientConfig, keyId: string) {
     this.signer = new Signer(kmsOptions, keyId);
   }
 
