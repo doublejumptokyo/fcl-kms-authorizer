@@ -51,10 +51,10 @@ export class Signer {
         KeyId: this.keyId
       })
     );
-    if (!Buffer.isBuffer(response.PublicKey)) {
-      throw new TypeError('PublicKey is not Buffer');
+    if (!(response.PublicKey instanceof Uint8Array)) {
+      throw new TypeError('PublicKey is not Uint8Array');
     }
-    return response.PublicKey;
+    return Buffer.from(response.PublicKey!);
   }
 
   private async _sign(digest: Buffer) {
