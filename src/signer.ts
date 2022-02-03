@@ -6,37 +6,52 @@ import * as rlp from '@onflow/rlp';
 
 export class Signer {
   private readonly kms: KMSClient;
-  private readonly keyId: string;
+  private readonly keyIds: string[];
 
-  public constructor(kmsOptions: KMSClientConfig, keyId: string) {
-    this.keyId = keyId;
+  public constructor(kmsOptions: KMSClientConfig, keyIds: string[]) {
+    this.keyIds = keyIds;
     this.kms = new KMSClient(kmsOptions);
   }
 
-  public async sign(message: string): Promise<string> {
+  public async sign(message: string, keyIndex: number = 0): Promise<string> {
     const digest = this._hashMessage(message);
-    const asn1Signature = await this._sign(digest);
+    const asn1Signature = await this._sign(digest, this.keyIds[keyIndex]);
     const { r, s } = parseSignature(asn1Signature);
     return Buffer.concat([this._pad32(r), this._pad32(s)]).toString('hex');
   }
 
   public async getPublicKey(): Promise<string> {
-    const asn1PublicKey = await this._getPublicKey();
-    const publicKey = parsePublicKey(asn1PublicKey);
-    return publicKey.toString('hex').replace(/^04/, '');
+    const publicKeys: string[] = [];
+    for (const keyId of this.keyIds) {
+      const asn1PublicKey = await this._getPublicKey(keyId);
+      const publicKey = parsePublicKey(asn1PublicKey);
+      publicKeys.push(publicKey.toString('hex').replace(/^04/, ''));
+    }
+    return publicKeys.join(',');
   }
 
-  public async getFlowPublicKey(): Promise<string> {
-    const asn1PublicKey = await this._getPublicKey();
-    const publicKey = parsePublicKey(asn1PublicKey);
+  public async getFlowPublicKey(
+    signatureAlgorithm: number = 3, // ECDSA_secp256k1
+    hashAlgorithm: number = 3, // SHA3-256
+    weights: number[] = [1000],
+  ): Promise<string> {
+    const flowPublicKeys: string[] = [];
+    for (let i = 0; i < this.keyIds.length; i++) {
+      const keyId = this.keyIds[i];
+      const asn1PublicKey = await this._getPublicKey(keyId);
+      const publicKey = parsePublicKey(asn1PublicKey);
 
-    // ref. https://github.com/onflow/flow/blob/f678a4/docs/content/concepts/accounts-and-keys.md#supported-signature--hash-algorithms
-    return rlp.encode([
-      Buffer.from(publicKey.toString('hex').replace(/^04/, ''), 'hex'),
-      3, // Signature Algorithm: ECDSA_secp256k1
-      3, // Hash Algorithm: SHA3-256
-      1000, // Weight
-    ]).toString('hex');
+      const weight = weights[i] || 0;
+      // ref. https://github.com/onflow/flow/blob/f678a4/docs/content/concepts/accounts-and-keys.md#supported-signature--hash-algorithms
+      const flowPublicKey = rlp.encode([
+        Buffer.from(publicKey.toString('hex').replace(/^04/, ''), 'hex'),
+        signatureAlgorithm,
+        hashAlgorithm,
+        weight,
+      ]).toString('hex');
+      flowPublicKeys.push(flowPublicKey);
+    }
+    return flowPublicKeys.join(',')
   }
 
   private _hashMessage(message: string): Buffer {
@@ -45,10 +60,10 @@ export class Signer {
     return sha.digest();
   }
 
-  private async _getPublicKey(): Promise<Buffer> {
+  private async _getPublicKey(keyId: string): Promise<Buffer> {
     const response = await this.kms.send(
       new GetPublicKeyCommand({
-        KeyId: this.keyId
+        KeyId: keyId
       })
     );
     if (!(response.PublicKey instanceof Uint8Array)) {
@@ -57,10 +72,10 @@ export class Signer {
     return Buffer.from(response.PublicKey!);
   }
 
-  private async _sign(digest: Buffer) {
+  private async _sign(digest: Buffer, keyId: string) {
     const response = await this.kms.send(
       new SignCommand({
-        KeyId: this.keyId,
+        KeyId: keyId,
         Message: digest,
         MessageType: 'DIGEST',
         SigningAlgorithm: 'ECDSA_SHA_256',
