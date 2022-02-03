@@ -15,7 +15,7 @@
     "build": "tsc -p tsconfig.json",
     "test": "run-p test:*",
     "test:start-emulator": "docker-compose up",
-    "test:execute": "sleep 2 && jest --forceExit && docker-compose down",
+    "test:execute": "sleep 10 && jest --forceExit && docker-compose down",
     "prepublishOnly": "yarn build",
     "example": "ts-node ./examples/send-tx.ts"
   },
