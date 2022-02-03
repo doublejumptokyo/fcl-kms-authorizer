@@ -1,6 +1,6 @@
 {
   "name": "fcl-kms-authorizer",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "AWS KMS authorizer (signer) for Flow blockchain.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -15,7 +15,7 @@
     "build": "tsc -p tsconfig.json",
     "test": "run-p test:*",
     "test:start-emulator": "docker-compose up",
-    "test:execute": "sleep 2 && jest --forceExit && docker-compose down",
+    "test:execute": "sleep 10 && jest --forceExit && docker-compose down",
     "prepublishOnly": "yarn build",
     "example": "ts-node ./examples/send-tx.ts"
   },
@@ -64,7 +64,7 @@
     "typescript": "^4.5.2"
   },
   "jest": {
-    "testTimeout": 10000,
+    "testTimeout": 30000,
     "preset": "ts-jest",
     "testEnvironment": "node",
     "collectCoverage": true,

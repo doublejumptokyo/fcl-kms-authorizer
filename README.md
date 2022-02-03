@@ -6,43 +6,45 @@
 AWS KMS authorizer (signer) for Flow blockchain.
 
 ## Install
+
 ```bash
 $ npm install fcl-kms-authorizer
 ```
 
 ## Examples
+
 See [send-tx.ts](https://github.com/doublejumptokyo/fcl-kms-authorizer/blob/main/examples/send-tx.ts).
 
 ```ts
-import * as fcl from '@onflow/fcl';
-import { KmsAuthorizer } from 'fcl-kms-authorizer';
+import * as fcl from "@onflow/fcl";
+import { KmsAuthorizer } from "fcl-kms-authorizer";
+import { fromEnv } from "@aws-sdk/credential-providers";
 
-const region = 'us-east-1';
-const keyId = 'xxxxx-xxxx-xxxx-xxxx-xxxxxxxx';
-const apiUrl = 'http://localhost:8080';
+const region = "us-east-1";
+const keyIds = ["xxxxx-xxxx-xxxx-xxxx-xxxxxxxx"];
+const apiUrl = "http://localhost:8080";
 
-fcl.config().put('accessNode.api', apiUrl);
+fcl.config().put("accessNode.api", apiUrl);
 
 async function main() {
-
   // Create an instance of the authorizer
-  const authorizer = new KmsAuthorizer({ region }, keyId);
-  //
-  // * The first argument can be the same as the option for AWS client.
-  //   Example:
-  //     const authorizer = new KmsAuthorizer({
-  //       credentials: fromEnv(), // see. https://github.com/aws/aws-sdk-js-v3/tree/main/packages/credential-providers#fromenv
-  //       region
-  //     }, keyId);
+  const authorizer = new KmsAuthorizer(
+    // The first argument can be the same as the option for AWS client.
+    {
+      credentials: fromEnv(), // see. https://github.com/aws/aws-sdk-js-v3/tree/main/packages/credential-providers#fromenv
+      region,
+    },
+    keyIds
+  );
 
   // Sign and send transactions with KMS
   //
 
-  // `address` and `keyIndex` obtained when the account was created.
-  const address = '01cf0e2f2f715450';
-  const keyIndex = 0;
+  // `address` and `keyIndexes` obtained when the account was created.
+  const address = "01cf0e2f2f715450";
+  const keyIndexes = [0];
 
-  const authorization = authorizer.authorize(address, keyIndex);
+  const authorization = authorizer.authorize(address, keyIndexes);
 
   const response = await fcl.send([
     fcl.transaction`
@@ -60,12 +62,11 @@ async function main() {
   ]);
   await fcl.tx(response).onceSealed();
 
-  console.log('Transaction Succeeded');
+  console.log("Transaction Succeeded");
 }
 
-main().catch(e => console.error(e));
+main().catch((e) => console.error(e));
 ```
-
 
 ## How to set up AWS KMS
 
@@ -85,7 +86,6 @@ Once the key is generated, you will get the Key ID.
 
 \* Note: These UIs are subject to change.
 
-
 ## How to create a Flow account
 
 Flow blockchain requires you to create an account with this public key in advance.
@@ -102,9 +102,7 @@ There are several ways to create an account. For details, please refer to Flow d
   - Ref: https://docs.onflow.org/flow-go-sdk/creating-accounts
 - Using Flow JavaScript SDK
 
-
 To obtain the public key needed to create an account, execute the following code.
-
 
 ```ts
 // Get the public key
@@ -116,15 +114,21 @@ const publicKey = await authorizer.getPublicKey();
 An example of creating an account using Flow CLI is shown below:
 
 ```
+# Single key
 $ flow accounts create \
       --sig-algo ECDSA_secp256k1 \
       --key a4e58eac80de2e8c37fea02a1b898623a73e729878d449649e68c7485c94d887b607439d94d6cad68134681443dd9b83d87312d08b6d6cf3f08e7f7fbd5f782e
+
+# Multiple keys
+$ flow accounts create \
+      --sig-algo ECDSA_secp256k1 \
+      --key a4e58eac80de2e8c37fea02a1b898623a73e729878d449649e68c7485c94d887b607439d94d6cad68134681443dd9b83d87312d08b6d6cf3f08e7f7fbd5f782e,3ccefe05e593c5333f26d1642718ac4ab5d7ebb1ddf23b078e0afcb6e2e39a7c307669209124dc038348af6f61b9a70e86a8b7c384c8fd0ba4346ae3f4246cfe \
+      --key-weight 1000,0
 ```
 
 Also, if you want to use Flow Testnet Faucet, choose the following settings. (Note: UI is subject to change)
 
 ![Key Info](./examples/screenshots/testnet_faucet_config.png)
-
 
 ## Security caveats
 
