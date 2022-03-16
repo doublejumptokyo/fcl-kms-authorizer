@@ -37,6 +37,10 @@ async function main() {
     keyIds
   );
 
+  // Get public key
+  const publicKey = await authorizer.getPublicKey();
+  console.log("publicKey:", publicKey);
+
   // Sign and send transactions with KMS
   //
 
@@ -63,6 +67,11 @@ async function main() {
   await fcl.tx(response).onceSealed();
 
   console.log("Transaction Succeeded");
+
+  // Sign a user message with KMS
+  const signer = authorizer.getSigner();
+  const signature = await signer.signUserMessage("test message");
+  console.log("User Signature:", signature);
 }
 
 main().catch((e) => console.error(e));

@@ -20,6 +20,13 @@ export class Signer {
     return Buffer.concat([this._pad32(r), this._pad32(s)]).toString('hex');
   }
 
+  public async signUserMessage(message: string, keyIndex: number = 0, userTag: string = 'FLOW-V0.0-user'): Promise<string> {
+    const digest = this._hashMessageWithUserTag(message, userTag);
+    const asn1Signature = await this._sign(digest, this.keyIds[keyIndex]);
+    const { r, s } = parseSignature(asn1Signature);
+    return Buffer.concat([this._pad32(r), this._pad32(s)]).toString('hex');
+  }
+
   public async getPublicKey(): Promise<string> {
     const publicKeys: string[] = [];
     for (const keyId of this.keyIds) {
@@ -58,6 +65,19 @@ export class Signer {
     const sha = new SHA3(256);
     sha.update(Buffer.from(message, 'hex'));
     return sha.digest();
+  }
+
+  private _hashMessageWithUserTag(message: string, userTag: string): Buffer {
+    const sha = new SHA3(256);
+    return sha.update(this._toBytesWithTag(message, userTag)).digest();
+  }
+
+  private _toBytesWithTag(str: string, userTag: string) {
+    // ref: https://github.com/onflow/flow-go-sdk/blob/9bb50d/sign.go
+    const tagBytes = Buffer.alloc(32);
+    Buffer.from(userTag).copy(tagBytes);
+    const strBytes = Buffer.from(str);
+    return Buffer.concat([tagBytes, strBytes]);
   }
 
   private async _getPublicKey(keyId: string): Promise<Buffer> {

@@ -2,12 +2,16 @@ import * as fcl from '@onflow/fcl';
 import { Signer } from './signer';
 import { KMSClientConfig } from '@aws-sdk/client-kms';
 
-export class KmsAuthorizer {
+class KmsAuthorizer {
   private readonly signer: Signer;
 
   public constructor(kmsOptions: KMSClientConfig, keyIdOrKeyIds: string | string[]) {
     const keyIds = typeof keyIdOrKeyIds === 'string' ? [keyIdOrKeyIds] : keyIdOrKeyIds;
     this.signer = new Signer(kmsOptions, keyIds);
+  }
+
+  public getSigner(): Signer {
+    return this.signer;
   }
 
   public async getPublicKey(): Promise<string> {
@@ -51,3 +55,5 @@ export class KmsAuthorizer {
     return account;
   };
 }
+
+export { KmsAuthorizer, Signer };
