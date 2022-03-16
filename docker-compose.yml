@@ -1,16 +1,14 @@
 version: "3.4"
 services:
   flow-emulator:
-    # image: gcr.io/dl-flow/emulator
-    build:
-      context: .
-    volumes:
-      - ./:/app:cached
+    image: gcr.io/flow-container-registry/emulator
     command: flow emulator
     environment:
       - FLOW_PORT=3569
       - FLOW_VERBOSE=true
-      - FLOW_SCRIPTGASLIMIT=99999999999
+      - FLOW_SERVICEPRIVATEKEY=6b24f011e41c0f721605c9e2d4b6e781e50d7bc52c8a6407209aedb112e3f916
+      - FLOW_SERVICEKEYSIGALGO=ECDSA_P256
+      - FLOW_SERVICEKEYHASHALGO=SHA3_256
     ports:
       - 3569:3569
       - 8080:8080
