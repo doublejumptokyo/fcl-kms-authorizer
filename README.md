@@ -132,7 +132,7 @@ $ flow accounts create \
 $ flow accounts create \
       --sig-algo ECDSA_secp256k1 \
       --key a4e58eac80de2e8c37fea02a1b898623a73e729878d449649e68c7485c94d887b607439d94d6cad68134681443dd9b83d87312d08b6d6cf3f08e7f7fbd5f782e,3ccefe05e593c5333f26d1642718ac4ab5d7ebb1ddf23b078e0afcb6e2e39a7c307669209124dc038348af6f61b9a70e86a8b7c384c8fd0ba4346ae3f4246cfe \
-      --key-weight 1000,0
+      --key-weight 1000,1000
 ```
 
 Also, if you want to use Flow Testnet Faucet, choose the following settings. (Note: UI is subject to change)
