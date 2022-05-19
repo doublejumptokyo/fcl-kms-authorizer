@@ -1,11 +1,13 @@
-import { mocked } from 'ts-jest/utils';
+import 'isomorphic-fetch';
+import { mocked } from 'jest-mock';
 import { KMSClient } from '@aws-sdk/client-kms';
 import { KmsAuthorizer } from '../src/index';
 import { Signer } from '../src/signer';
 import { Util } from './util';
 import * as fcl from '@onflow/fcl';
+import { send as httpSend } from '@onflow/transport-http';
 
-const apiUrl = 'http://localhost:8080';
+const apiUrl = 'http://localhost:8888';
 // TODO: Change 'P256' -> 'secp256k1'
 // const publicKey = '0a335b0aa7b9f359b0be89e0efc12bfd1696270e2329e49d9954f231e230be8ade7fa562afe569903c994da2ede0b9a8f98cb55ead22ea99ff851644fac93f3e';
 // const flowPublicKey = 'f847b8400a335b0aa7b9f359b0be89e0efc12bfd1696270e2329e49d9954f231e230be8ade7fa562afe569903c994da2ede0b9a8f98cb55ead22ea99ff851644fac93f3e03038203e8';
@@ -24,7 +26,7 @@ describe('KmsAuthorizer', () => {
         sign: (param: any, callback: any) => { return { promise: () => '' }; },
       };
     });
-    jest.spyOn(Signer.prototype, 'sign').mockImplementation((message: string): Promise<string> => { return new Promise((resolve, _reject) => resolve(util.signWithKey(privateKey, message))); } );
+    jest.spyOn(Signer.prototype, 'sign').mockImplementation((message: string): Promise<string> => { return new Promise((resolve, _reject) => resolve(util.signWithKey(privateKey, message))); });
     jest.spyOn(Signer.prototype, 'getPublicKey').mockImplementation((): any => publicKey);
     jest.spyOn(Signer.prototype, 'getFlowPublicKey').mockImplementation((): any => flowPublicKey);
 
@@ -40,7 +42,7 @@ describe('KmsAuthorizer', () => {
     const authorization = authorizer.authorize(address, keyIndex);
     expect(typeof authorization).toBe('function');
 
-    fcl.config().put('accessNode.api', apiUrl);
+    fcl.config().put('accessNode.api', apiUrl).put("sdk.transport", httpSend);
     const response = await fcl.send([
       fcl.transaction`
         transaction {
