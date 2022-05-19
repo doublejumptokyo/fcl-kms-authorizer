@@ -1,12 +1,13 @@
 import * as fcl from '@onflow/fcl';
+import { send as httpSend } from '@onflow/transport-http';
 import { KmsAuthorizer } from '../src/authorizer';
 import { fromEnv } from '@aws-sdk/credential-providers';
 
 const region = 'ap-northeast-1';
 const keyIds = ["xxxxx-xxxx-xxxx-xxxx-xxxxxxxx"];
-const apiUrl = 'http://localhost:8080';
+const apiUrl = 'http://localhost:8888';
 
-fcl.config().put('accessNode.api', apiUrl);
+fcl.config().put('accessNode.api', apiUrl).put("sdk.transport", httpSend);
 
 async function main() {
 

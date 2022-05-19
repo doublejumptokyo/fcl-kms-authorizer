@@ -13,13 +13,8 @@
     "moduleResolution": "node",
     "declaration": true,
     "outDir": "./dist",
-    "types": ["node"],
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
+    "types": ["jest", "node"],
+    "typeRoots": ["./node_modules/@types"]
   },
-  "include": [
-    "src",
-    "types"
-  ]
+  "include": ["src", "types"]
 }

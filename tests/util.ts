@@ -1,14 +1,18 @@
 import { ec as EC } from 'elliptic';
 import { SHA3 } from 'sha3';
 import * as fcl from '@onflow/fcl';
+import { send as httpSend } from '@onflow/transport-http';
+import { send as grpcSend } from "@onflow/transport-grpc";
 import * as types from '@onflow/types';
 
 const flowEmulatorConfig = require('../flow.json');
 const ec = new EC('p256');
 
 export class Util {
-  constructor(apiUrl: string) {
-    fcl.config().put('accessNode.api', apiUrl);
+  constructor(apiUrl: string, useGrpc: boolean = false) {
+    fcl.config()
+      .put('accessNode.api', apiUrl)
+      .put("sdk.transport", useGrpc ? grpcSend : httpSend);
   }
 
   async createFlowAccount(flowPublicKey: string) {
@@ -17,7 +21,7 @@ export class Util {
       privateKey: flowEmulatorConfig.accounts['emulator-account'].keys,
       keyIndex: 0
     });
-  
+
     const response = await fcl.send([
       fcl.transaction`
         transaction(publicKey: String) {
@@ -36,7 +40,7 @@ export class Util {
           }
         }
       `,
-      fcl.args([ fcl.arg(flowPublicKey, types.String) ]),
+      fcl.args([fcl.arg(flowPublicKey, types.String)]),
       fcl.proposer(authorization),
       fcl.authorizations([authorization]),
       fcl.payer(authorization),
@@ -58,7 +62,7 @@ export class Util {
         addr: fcl.sansPrefix(address),
         keyId: Number(keyIndex),
         resolve: null,
-        signingFunction: async(data: any) => {
+        signingFunction: async (data: any) => {
           return {
             addr: fcl.withPrefix(address),
             keyId: Number(keyIndex),
@@ -70,7 +74,7 @@ export class Util {
   };
 
   async getAccount(addr: string) {
-    const { account } = await fcl.send([ fcl.getAccount(addr) ]);
+    const { account } = await fcl.send([fcl.getAccount(addr)]);
     return account;
   };
 
