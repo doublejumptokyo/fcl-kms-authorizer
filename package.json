@@ -1,6 +1,6 @@
 {
   "name": "fcl-kms-authorizer",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "AWS KMS authorizer (signer) for Flow blockchain.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
