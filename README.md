@@ -17,14 +17,15 @@ See [send-tx.ts](https://github.com/doublejumptokyo/fcl-kms-authorizer/blob/main
 
 ```ts
 import * as fcl from "@onflow/fcl";
+import { send as httpSend } from "@onflow/transport-http";
 import { KmsAuthorizer } from "fcl-kms-authorizer";
 import { fromEnv } from "@aws-sdk/credential-providers";
 
 const region = "us-east-1";
 const keyIds = ["xxxxx-xxxx-xxxx-xxxx-xxxxxxxx"];
-const apiUrl = "http://localhost:8080";
+const apiUrl = "http://localhost:8888";
 
-fcl.config().put("accessNode.api", apiUrl);
+fcl.config().put("accessNode.api", apiUrl).put("sdk.transport", httpSend);
 
 async function main() {
   // Create an instance of the authorizer
