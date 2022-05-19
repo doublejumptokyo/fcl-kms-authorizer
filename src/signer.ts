@@ -13,16 +13,23 @@ export class Signer {
     this.kms = new KMSClient(kmsOptions);
   }
 
-  public async sign(message: string, keyIndex: number = 0): Promise<string> {
+  public async sign(
+    message: string,
+    index: number = 0 // index is the index of the keyIds array, not keyIndex
+  ): Promise<string> {
     const digest = this._hashMessage(message);
-    const asn1Signature = await this._sign(digest, this.keyIds[keyIndex]);
+    const asn1Signature = await this._sign(digest, this.keyIds[index]);
     const { r, s } = parseSignature(asn1Signature);
     return Buffer.concat([this._pad32(r), this._pad32(s)]).toString('hex');
   }
 
-  public async signUserMessage(message: string, keyIndex: number = 0, userTag: string = 'FLOW-V0.0-user'): Promise<string> {
+  public async signUserMessage(
+    message: string,
+    index: number = 0, // index is the index of the keyIds array, not keyIndex
+    userTag: string = 'FLOW-V0.0-user'
+  ): Promise<string> {
     const digest = this._hashMessageWithUserTag(message, userTag);
-    const asn1Signature = await this._sign(digest, this.keyIds[keyIndex]);
+    const asn1Signature = await this._sign(digest, this.keyIds[index]);
     const { r, s } = parseSignature(asn1Signature);
     return Buffer.concat([this._pad32(r), this._pad32(s)]).toString('hex');
   }

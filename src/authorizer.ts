@@ -30,18 +30,18 @@ class KmsAuthorizer {
     const keyIndexes: number[] = typeof keyIndexOrKeyIndexes === 'number' ? [keyIndexOrKeyIndexes] : keyIndexOrKeyIndexes;
     return async (account: any = {}) => {
       const authzs: any[] = [];
-      for (const keyIndex of keyIndexes) {
+      for (const [index, keyIndex] of keyIndexes.entries()) {
         authzs.push({
           ...account,
           tempId: [fromAddress, keyIndex].join("-"),
           addr: fcl.sansPrefix(fromAddress),
           keyId: Number(keyIndex),
           resolve: null,
-          signingFunction: async(data: any) => {
+          signingFunction: async (data: any) => {
             return {
               addr: fcl.withPrefix(fromAddress),
               keyId: Number(data.keyId),
-              signature: await this.signer.sign(data.message, keyIndex)
+              signature: await this.signer.sign(data.message, index)
             };
           }
         });
@@ -51,7 +51,7 @@ class KmsAuthorizer {
   };
 
   private async getAccount(address: string) {
-    const { account } = await fcl.send([ fcl.getAccount(address) ]);
+    const { account } = await fcl.send([fcl.getAccount(address)]);
     return account;
   };
 }
